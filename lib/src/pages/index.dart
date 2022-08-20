@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
-
-import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_agora_api/src/pages/call.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import 'call.dart';
 
 class IndexPage extends StatefulWidget {
@@ -99,14 +94,17 @@ class _IndexPageState extends State<IndexPage> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CallPage(
-                  channelName: _channelController.text,
-                  role: _role,
-                ),
-            ),
+          builder: (context) => CallPage(
+            channelName: _channelController.text,
+            role: _role,
+          ),
+        ),
       );
     }
   }
-  
-  Future<void> _handleCameraAndMic(Permission camera) async {}
+
+  Future<void> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    log(status.toString());
+  }
 }
