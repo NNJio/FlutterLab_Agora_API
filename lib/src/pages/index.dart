@@ -2,7 +2,9 @@
 // import 'dart:developer';
 
 // import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 // import 'call.dart';
@@ -16,8 +18,8 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
   final _channelController = TextEditingController();
-  // bool _validateError = false;
-  // ClientRole? _role = ClientRole.Broadcaster;
+  bool _validateError = false;
+  ClientRole? _role = ClientRole.Broadcaster;
 
   @override
   void dispose() {
@@ -32,16 +34,38 @@ class _IndexPageState extends State<IndexPage> {
         title: const Text("Agora"),
         centerTitle: true,
       ),
-      // body: SingleChildScrollView(
-      //   child: Container(
-      //     padding: const EdgeInsets.symmetric(horizontal: 20),
-      //     child: Column(
-      //       children: const [SizedBox(
-      //         height: 40)
-      //       ]
-      //     ),
-      //   ),
-      // ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(children: <Widget>[
+            const SizedBox(height: 40),
+            Image.network('https://tinyurl.com/2p889y4k'),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+              controller: _channelController,
+              decoration: InputDecoration(
+                errorText: _validateError ? 'Channel name is mandatory' : null,
+                border: const UnderlineInputBorder(
+                  borderSide: BorderSide(width: 1),
+                ),
+                hintText: 'Chanel name',
+              ),
+            ),
+            RadioListTile(
+              title: Text('Broadcaster'),
+              onChanged: (ClientRole? value) {
+                setState(() {
+                  _role = value;
+                });
+              },
+              value: ClientRole.Broadcaster,
+              groupValue: _role,
+            ),
+          ]),
+        ),
+      ),
     );
   }
 }
