@@ -1,13 +1,15 @@
-// import 'dart:async';
-// import 'dart:developer';
+import 'dart:async';
+import 'dart:developer';
 
-// import 'package:agora_rtc_engine/rtc_engine.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_agora_api/src/pages/call.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-// import 'call.dart';
+import 'call.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -54,7 +56,7 @@ class _IndexPageState extends State<IndexPage> {
               ),
             ),
             RadioListTile(
-              title: Text('Broadcaster'),
+              title: const Text('Broadcaster'),
               onChanged: (ClientRole? value) {
                 setState(() {
                   _role = value;
@@ -63,9 +65,48 @@ class _IndexPageState extends State<IndexPage> {
               value: ClientRole.Broadcaster,
               groupValue: _role,
             ),
+            RadioListTile(
+              title: const Text('Audience'),
+              onChanged: (ClientRole? value) {
+                setState(() {
+                  _role = value;
+                });
+              },
+              value: ClientRole.Audience,
+              groupValue: _role,
+            ),
+            ElevatedButton(
+              onPressed: onJoin,
+              style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 40)),
+              child: const Text("Join"),
+            ),
           ]),
         ),
       ),
     );
   }
+
+  Future<void> onJoin() async {
+    setState(() {
+      _channelController.text.isEmpty
+          ? _validateError = true
+          : _validateError = false;
+    });
+    if (_channelController.text.isNotEmpty) {
+      await _handleCameraAndMic(Permission.camera);
+      await _handleCameraAndMic(Permission.microphone);
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CallPage(
+                  channelName: _channelController.text,
+                  role: _role,
+                ),
+            ),
+      );
+    }
+  }
+  
+  Future<void> _handleCameraAndMic(Permission camera) async {}
 }

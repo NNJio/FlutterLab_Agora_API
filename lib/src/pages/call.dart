@@ -1,6 +1,6 @@
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
-import 'package:agora_rtc_engine/agora_rtc_engine_web.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
 
 class CallPage extends StatefulWidget {
   final String? channelName;
@@ -21,7 +21,7 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Agora"),
+        title: const Text("Agora"),
         centerTitle: true,
       ),
     );
