@@ -4,7 +4,6 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_agora_api/src/pages/call.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'call.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({Key? key}) : super(key: key);
@@ -91,6 +90,7 @@ class _IndexPageState extends State<IndexPage> {
     if (_channelController.text.isNotEmpty) {
       await _handleCameraAndMic(Permission.camera);
       await _handleCameraAndMic(Permission.microphone);
+      // ignore: use_build_context_synchronously
       await Navigator.push(
         context,
         MaterialPageRoute(
